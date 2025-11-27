@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>CV Builder &amp; Cover Letter Generator</h1>
+  </header>
+  <main class="container">
+    <section class="editor-section">
+      <h2>LaTeX Editor</h2>
+      <textarea id="latex-editor" placeholder="Enter your LaTeX here...">% Simple CV template
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+\section*{Name}
+Your Name
+
+\section*{Experience}
+% Add experience here
+
+\section*{Education}
+% Add education here
+
+\section*{Skills}
+% Add skills here
+
+\end{document}</textarea>
+      <button id="compile-btn">Compile PDF</button>
+      <button id="chat-btn">AI Assistant</button>
+      <button id="cover-letter-btn">Generate Cover Letter</button>
+    </section>
+    <section class="preview-section">
+      <h2>PDF Preview</h2>
+      <iframe id="pdf-preview" src="" type="application/pdf"></iframe>
+    </section>
+  </main>
+
+  <!-- Chat Modal -->
+  <div id="chat-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" id="chat-close">&times;</span>
+      <h3>AI Assistant</h3>
+      <textarea id="job-description" placeholder="Paste job description here..." rows="4"></textarea>
+      <button id="send-chat">Get Suggestions</button>
+      <pre id="chat-response"></pre>
+    </div>
+  </div>
+
+  <!-- Cover Letter Modal -->
+  <div id="cover-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" id="cover-close">&times;</span>
+      <h3>Cover Letter Generator</h3>
+      <input type="text" id="company" placeholder="Company Name" />
+      <input type="text" id="position" placeholder="Position Title" />
+      <textarea id="skills" placeholder="Key Skills (comma separated)" rows="2"></textarea>
+      <button id="generate-cover">Generate PDF</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
