@@ -1,100 +1,89 @@
-// app.js – handles LaTeX compilation, AI chat, and cover letter generation
+// app.js
 
-const editor = document.getElementById('latex-editor');
-const compileBtn = document.getElementById('compile-btn');
-const chatBtn = document.getElementById('chat-btn');
-const coverBtn = document.getElementById('cover-letter-btn');
+const jobDescInput = document.getElementById('job-description');
+const tailorBtn = document.getElementById('tailor-btn');
+const loadingMsg = document.getElementById('loading-msg');
 const pdfPreview = document.getElementById('pdf-preview');
+const clPreview = document.getElementById('cl-preview');
+const downloadCvBtn = document.getElementById('download-cv');
+const downloadClBtn = document.getElementById('download-cl');
 
-// Chat modal elements
-const chatModal = document.getElementById('chat-modal');
-const chatClose = document.getElementById('chat-close');
-const jobDesc = document.getElementById('job-description');
-const sendChat = document.getElementById('send-chat');
-const chatResponse = document.getElementById('chat-response');
+// Tab switching logic
+function openTab(tabId) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    // Deactivate all buttons
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-// Cover letter modal elements
-const coverModal = document.getElementById('cover-modal');
-const coverClose = document.getElementById('cover-close');
-const companyInput = document.getElementById('company');
-const positionInput = document.getElementById('position');
-const skillsInput = document.getElementById('skills');
-const generateCover = document.getElementById('generate-cover');
+    // Show selected tab
+    document.getElementById(tabId).classList.add('active');
+    // Activate button
+    const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+    if (btn) btn.classList.add('active');
+}
 
-// Utility: show/hide modal
-function showModal(modal) { modal.classList.add('visible'); modal.classList.remove('hidden'); }
-function hideModal(modal) { modal.classList.remove('visible'); modal.classList.add('hidden'); }
+// Tailor & Generate Logic
+async function tailorCV() {
+    const jobDescription = jobDescInput.value;
+    if (!jobDescription) {
+        alert('Please enter a Job Description first.');
+        return;
+    }
 
-// Compile LaTeX → PDF preview
-async function compileLatex() {
-    const latex = editor.value;
+    loadingMsg.style.display = 'flex';
+    tailorBtn.disabled = true;
+    tailorBtn.textContent = "Processing...";
+
     try {
-        const resp = await fetch('http://localhost:3000/compile', {
+        // 1. Tailor CV
+        const cvResp = await fetch('http://localhost:3000/tailor-cv', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ latex })
+            body: JSON.stringify({ jobDescription })
         });
-        if (!resp.ok) throw new Error('Compile failed');
-        const blob = await resp.blob();
-        const url = URL.createObjectURL(blob);
-        pdfPreview.src = url;
+
+        if (!cvResp.ok) {
+            const errData = await cvResp.json().catch(() => ({}));
+            throw new Error(errData.error || 'CV Tailoring failed');
+        }
+        const cvBlob = await cvResp.blob();
+        const cvUrl = URL.createObjectURL(cvBlob);
+        pdfPreview.src = cvUrl;
+
+        // Setup Download Link
+        downloadCvBtn.href = cvUrl;
+        downloadCvBtn.style.display = 'inline-block';
+
+        // 2. Generate Cover Letter
+        const clResp = await fetch('http://localhost:3000/tailor-cover-letter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jobDescription })
+        });
+
+        if (!clResp.ok) {
+            const errData = await clResp.json().catch(() => ({}));
+            throw new Error(errData.error || 'Cover Letter Generation failed');
+        }
+        const clBlob = await clResp.blob();
+        const clUrl = URL.createObjectURL(clBlob);
+        clPreview.src = clUrl;
+
+        // Setup Download Link
+        downloadClBtn.href = clUrl;
+        downloadClBtn.style.display = 'inline-block';
+
     } catch (e) {
-        alert(e.message);
+        alert('Error: ' + e.message);
+    } finally {
+        loadingMsg.style.display = 'none';
+        tailorBtn.disabled = false;
+        tailorBtn.textContent = "Tailor & Generate";
     }
 }
 
-// AI chat – get suggestions
-async function getSuggestions() {
-    const cvLatex = editor.value;
-    const jobDescription = jobDesc.value;
-    try {
-        const resp = await fetch('http://localhost:3000/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cvLatex, jobDescription })
-        });
-        const data = await resp.json();
-        chatResponse.textContent = data.suggestion || 'No suggestion returned.';
-    } catch (e) {
-        chatResponse.textContent = 'Error: ' + e.message;
-    }
-}
+// Event Listeners
+tailorBtn.addEventListener('click', tailorCV);
 
-// Cover letter generation
-async function generateCoverLetter() {
-    const templateData = {
-        company: companyInput.value,
-        position: positionInput.value,
-        skills: skillsInput.value
-    };
-    try {
-        const resp = await fetch('http://localhost:3000/cover-letter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ templateData })
-        });
-        if (!resp.ok) throw new Error('Cover letter generation failed');
-        const blob = await resp.blob();
-        const url = URL.createObjectURL(blob);
-        // Open in new tab
-        window.open(url, '_blank');
-    } catch (e) {
-        alert(e.message);
-    }
-}
-
-// Event listeners
-compileBtn.addEventListener('click', compileLatex);
-chatBtn.addEventListener('click', () => showModal(chatModal));
-coverBtn.addEventListener('click', () => showModal(coverModal));
-chatClose.addEventListener('click', () => hideModal(chatModal));
-coverClose.addEventListener('click', () => hideModal(coverModal));
-sendChat.addEventListener('click', getSuggestions);
-generateCover.addEventListener('click', generateCoverLetter);
-
-// Optional: auto‑compile on typing (debounced)
-let debounceTimer;
-editor.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(compileLatex, 1000);
-});
+// Expose openTab to global scope for HTML onclick
+window.openTab = openTab;

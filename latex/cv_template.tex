@@ -1,17 +1,88 @@
-% Simple CV template
-\documentclass{article}
-\usepackage[margin=1in]{geometry}
+\documentclass[a4paper,10pt]{article}
+\usepackage[left=0.5in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+% Formatting sections
+\titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{10pt}{5pt}
+
+% Formatting lists
+\setlist[itemize]{leftmargin=*, noitemsep, topsep=0pt}
+
+% Links
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+}
+
 \begin{document}
-\section*{Name}
-Your Name
 
-\section*{Experience}
-% Add experience here
+% Header
+\begin{center}
+    {\Huge \textbf{ {{{escapeLatex personal_info.name}}} }} \\ \vspace{2pt}
+    \small
+    \href{mailto: {{{escapeLatex personal_info.email}}} }{ {{{escapeLatex personal_info.email}}} } | 
+    {{{escapeLatex personal_info.phone}}} | 
+    \href{ {{{escapeLatex personal_info.linkedin_url}}} }{ {{{escapeLatex personal_info.linkedin}}} } | 
+    \href{ {{{escapeLatex personal_info.github_url}}} }{ {{{escapeLatex personal_info.github}}} }
+\end{center}
 
-\section*{Education}
-% Add education here
+% Education
+\section*{EDUCATION}
+{{#each education}}
+\noindent
+\textbf{ {{{escapeLatex this.institution}}} } \hfill {{{escapeLatex this.location}}} \\
+\textit{ {{{escapeLatex this.degree}}} } \hfill {{{escapeLatex this.date}}} \\
+\vspace{2pt}
+{{/each}}
 
-\section*{Skills}
-% Add skills here
+% Technical Skills
+\section*{TECHNICAL SKILLS}
+\noindent
+\textbf{Languages:} {{{escapeLatex skills.languages}}} \\
+\textbf{Backend:} {{{escapeLatex skills.backend}}} \\
+\textbf{Frontend:} {{{escapeLatex skills.frontend}}} \\
+\textbf{Databases:} {{{escapeLatex skills.databases}}} \\
+\textbf{Data Analytics:} {{{escapeLatex skills.analytics}}} \\
+\textbf{Tools \& Technologies:} {{{escapeLatex skills.tools}}}
+
+% Projects
+\section*{PROJECTS}
+{{#each projects}}
+\noindent
+\textbf{ {{{escapeLatex this.title}}} } \hfill \textit{ {{{escapeLatex this.tech}}} } \\
+\begin{itemize}
+    \item {{{escapeLatex this.description}}}
+\end{itemize}
+\vspace{5pt}
+{{/each}}
+
+% Technical Experience & Leadership
+\section*{TECHNICAL EXPERIENCE \& LEADERSHIP}
+{{#each experience}}
+\noindent
+\textbf{ {{{escapeLatex this.organization}}} } \hfill {{{escapeLatex this.location}}} \\
+\textit{ {{{escapeLatex this.role}}} } \hfill {{{escapeLatex this.date}}} \\
+\begin{itemize}
+    \item {{{escapeLatex this.description}}}
+\end{itemize}
+\vspace{5pt}
+{{/each}}
+
+% Achievements & Activities
+\section*{ACHIEVEMENTS \& ACTIVITIES}
+\begin{itemize}
+    \item \textbf{Participant:} {{{escapeLatex achievements}}}
+\end{itemize}
+
+% Certifications & Coursework
+\section*{CERTIFICATIONS \& COURSEWORK}
+\noindent
+{{{escapeLatex certifications}}}
 
 \end{document}
