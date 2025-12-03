@@ -1,0 +1,81 @@
+{
+    "personal_info": {
+        "name": "ANKITA BHAMIDIMARRI",
+        "email": "ankitabhamidimarri21804@gmail.com",
+        "phone": "+91-6304450121",
+        "linkedin": "linkedin.com/in/ankita-bhamidimarri",
+        "linkedin_url": "https://linkedin.com/in/ankita-bhamidimarri",
+        "github": "github.com/Ankita-Bha",
+        "github_url": "https://github.com/Ankita-Bha"
+    },
+    "education": [
+        {
+            "institution": "Malla Reddy University",
+            "location": "Hyderabad, India",
+            "degree": "B.Tech in Computer Science and Engineering; CGPA: \\textbf{8.53}/10.0",
+            "date": "Expected April 2026"
+        },
+        {
+            "institution": "St. Anne's Junior College",
+            "location": "Hyderabad, India",
+            "degree": "Class XII Board Examination; Percentage: 72.9\\%",
+            "date": "2022"
+        },
+        {
+            "institution": "Genesis The Right High School",
+            "location": "Hyderabad, India",
+            "degree": "Class X Board Examination; CGPA: 9.7/10.0",
+            "date": "2020"
+        }
+    ],
+    "skills": {
+        "languages": "Java, Python, JavaScript, SQL",
+        "backend": "Node.js, Express.js",
+        "frontend": "React",
+        "databases": "MongoDB, MySQL",
+        "analytics": "Pandas, Scikit-learn, Matplotlib, Seaborn, Streamlit",
+        "tools": "Git, REST APIs, JWT, Arduino, ESP32"
+    },
+    "projects": [
+        {
+            "title": "VoteCash $|$ Election Data Analytics Platform",
+            "tech": "Python, Scikit-learn, Streamlit",
+            "description": "Developed a predictive model that achieved 70\\% accuracy in forecasting voter turnout based on ad spend, delivering key insights via an interactive Streamlit dashboard."
+        },
+        {
+            "title": "Ciniverse $|$ MERN Stack Movie Discovery App",
+            "tech": "React, Node.js, MongoDB, Express.js",
+            "description": "Engineered a full-stack MERN application for real-time movie discovery, featuring a RESTful API and optimized MongoDB schema to ensure high-speed data retrieval."
+        },
+        {
+            "title": "Bon Voyage $|$ Full-Stack Travel Planner",
+            "tech": "Java, JWT, MySQL",
+            "description": "Built a secure, full-stack travel planner with role-based user authentication (JWT) for creating, budgeting, and managing personalized trip itineraries."
+        }
+    ],
+    "experience": [
+        {
+            "organization": "IEEE Govt Innovation Hackathon 2024",
+            "location": "Hyderabad, India",
+            "role": "Backend Developer",
+            "date": "Feb 2024",
+            "description": "Developed core backend logic and API endpoints for a civic tech solution during a competitive 24-hour hackathon."
+        },
+        {
+            "organization": "Smart India Hackathon 2023 (Internal Round)",
+            "location": "Hyderabad, India",
+            "role": "Prototype Designer",
+            "date": "Mar 2023",
+            "description": "Designed and wireframed a high-fidelity prototype for a proposed government service application, focusing on user experience and feasibility."
+        },
+        {
+            "organization": "Spark Intelligentia 2k22 - College Tech Fest",
+            "location": "Hyderabad, India",
+            "role": "Cultural Coordinator",
+            "date": "Oct 2022",
+            "description": "Organized and managed multiple cultural events, coordinating with over 10 teams to ensure successful execution."
+        }
+    ],
+    "achievements": "Google Cloud x GfG Hackathon (2023), AIESEC Start-up Summit, Techspardha Poster Design. Hack with India",
+    "certifications": "\\textbf{Python Programming Essentials} (Rice University), \\textbf{Object-Oriented Java} (Duke University), \\textbf{Operating Systems} (Google), \\textbf{AI/ML Fundamentals} (IBM)"
+}
